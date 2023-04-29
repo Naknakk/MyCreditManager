@@ -19,7 +19,7 @@ protocol MenuControl: AnyObject {
     func inputError()
 }
 
-extension Menu {
+extension MenuControl {
     func getInput(with description: String) {
         print(description)
         input = checkPattern(readLine(), pattern: pattern)
