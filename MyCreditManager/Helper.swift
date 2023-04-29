@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum TextType {
-        case basic, inputFormatError, success, fail, exit
-}
-
 struct Student: Identifiable, Hashable {
     var id: String {
         return name
