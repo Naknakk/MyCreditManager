@@ -60,7 +60,7 @@ class MainMenu: Menu {
         getInput()
         
         if let select = input {
-            select == "X" ? endProgram() : moveMenu(to: select)
+            select == "X" ? endProgram() : moveTo(menu: select)
         } else {
             inputError()
             returnToMain()
@@ -79,7 +79,7 @@ extension MainMenu {
         )
     }
     
-    func moveMenu(to number: String) {
+    func moveTo(menu number: String) {
         let menuIndex = Int(number) ?? 0
         currentMenu = menuOptions[menuIndex]
     }
@@ -106,7 +106,7 @@ class AddStudent: Menu {
         getInput()
         
         if let name = input {
-            students.contains{ $0.name == name } ? addFail(name: name) : addSuccess(name: name)
+            isExist(name: name) ? fail(name: name) : addStudent(name: name)
         } else {
             inputError()
         }
@@ -116,21 +116,21 @@ class AddStudent: Menu {
 }
 
 extension AddStudent {
+    func isExist(name: String) -> Bool{
+        return students.contains{ $0.name == name }
+    }
+    
     func getInput() {
         getInput(with: "추가할 학생의 이름을 입력해주세요")
     }
     
-    func addFail(name: String) {
+    func fail(name: String) {
         print("\(name)은 이미 존재하는 학생입니다. 추가하지 않습니다.")
-    }
-    
-    func addSuccess(name: String) {
-        addStudent(name: name)
-        print("\(name) 학생을 추가했습니다.")
     }
     
     func addStudent(name: String) {
         students.append(Student(name: name))
+        print("\(name) 학생을 추가했습니다.")
     }
 }
 
@@ -148,7 +148,7 @@ class DeleteStudent: Menu {
             if let index = students.firstIndex(where: { $0.name == name }) {
                 deleteStudent(name: name, at: index)
             } else {
-                deleteFail(name: name)
+                fail(name: name)
             }
         } else {
             inputError()
@@ -164,7 +164,7 @@ extension DeleteStudent {
         print("\(name) 학생을 삭제하였습니다.")
     }
     
-    func deleteFail(name: String) {
+    func fail(name: String) {
         print("\(name) 학생을 찾지 못했습니다.")
     }
     
@@ -186,7 +186,7 @@ class AddGrade: Menu {
             if let index = students.firstIndex(where: { $0.name == gradeData[0]}) {
                 addGrade(gradeData: gradeData, at: index)
             } else {
-                addFail(gradeData: gradeData)
+                fail(gradeData: gradeData)
             }
         } else {
             inputError()
@@ -205,7 +205,7 @@ extension AddGrade {
                 """)
     }
     
-    func addFail(gradeData: [String]) {
+    func fail(gradeData: [String]) {
         print("\(gradeData[0]) 학생을 찾지 못했습니다.")
     }
     
@@ -228,9 +228,9 @@ class DeleteGrade: Menu {
         
         if let deleteData = input?.split(whereSeparator: { $0 == " " }).map({ String($0) }) {
             if let index = students.firstIndex(where: { $0.name == deleteData[0] }) {
-                addGrade(deleteData: deleteData, at: index)
+                deleteGrade(deleteData: deleteData, at: index)
             } else {
-                addFail(deleteData: deleteData)
+                deleteFail(deleteData: deleteData)
             }
         } else {
             inputError()
@@ -249,11 +249,11 @@ extension DeleteGrade {
                 """)
     }
     
-    func addFail(deleteData: [String]) {
+    func deleteFail(deleteData: [String]) {
         print("\(deleteData[0]) 학생을 찾지 못했습니다.")
     }
     
-    func addGrade(deleteData: [String], at index: Int) {
+    func deleteGrade(deleteData: [String], at index: Int) {
         students[index].grades[deleteData[1]] = nil
         print("\(deleteData[0]) 학생의 \(deleteData[1]) 과목의 성적이 삭제되었습니다.")
     }
@@ -272,7 +272,7 @@ class PrintGrades: Menu {
             if let student = students.first(where: { $0.name == name }) {
                 printSuccess(student: student)
             } else {
-                addFail(name: name)
+                fail(name: name)
             }
         } else {
             inputError()
@@ -288,7 +288,7 @@ extension PrintGrades {
         getInput(with: "평점을 알고싶은 학생의 이름을 입력해주세요")
     }
     
-    func addFail(name: String) {
+    func ff\ail(name: String) {
         print("\(name) 학생을 찾지 못했습니다.")
     }
     
