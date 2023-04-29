@@ -288,7 +288,7 @@ extension PrintGrades {
         getInput(with: "평점을 알고싶은 학생의 이름을 입력해주세요")
     }
     
-    func ff\ail(name: String) {
+    func fail(name: String) {
         print("\(name) 학생을 찾지 못했습니다.")
     }
     
