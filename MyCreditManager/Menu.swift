@@ -236,7 +236,7 @@ class DeleteGrade: Menu {
             inputError()
         }
         
-        self.returnToMain()
+        returnToMain()
     }
 }
 
